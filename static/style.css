@@ -1,0 +1,270 @@
+/* Variáveis de cores para o tema do sistema */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #2980b9;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --success-color: #27ae60;
+    --warning-color: #e74c3c;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --background-color: #f5f7fa;
+}
+
+/* Reset e estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estrutura da página */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    flex-grow: 1;
+}
+
+/* Cabeçalho */
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.logo-icon {
+    font-size: 26px;
+    margin-right: 12px;
+}
+
+.user-info {
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* Área de conteúdo principal */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+    font-size: 26px;
+}
+
+h2 {
+    color: var(--dark-color);
+    margin: 25px 0 15px;
+    font-size: 1.4rem;
+}
+
+/* Formulário centralizado estilo login */
+.form-container {
+    background-color: var(--light-color);
+    padding: 30px 40px;
+    border-radius: 8px;
+    margin: 0 auto 40px auto;   /* centraliza horizontalmente */
+    border-left: 4px solid var(--secondary-color);
+
+    width: 60%;                 /* ocupa ao menos metade da tela */
+    max-width: 1000px;          /* mas não passa de 1000px */
+    min-width: 600px;           /* não fica estreito demais */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Botão alinhado à direita */
+button {
+    background: linear-gradient(to bottom, var(--secondary-color), var(--accent-color));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    display: block;
+    margin-left: auto; /* joga para a direita */
+    margin-top: 15px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Tabela */
+.table-container {
+    margin-top: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px; /* margem mínima inferior */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #e8f4fc;
+}
+
+/* Rodapé */
+.footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    margin-top: auto;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Mensagens do sistema */
+.system-message {
+    padding: 12px 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.system-message::before {
+    content: "✓";
+    font-weight: bold;
+}
+
+.success {
+    background-color: rgba(39, 174, 96, 0.15);
+    border-left: 4px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.error {
+    background-color: rgba(231, 76, 60, 0.15);
+    border-left: 4px solid var(--warning-color);
+    color: var(--warning-color);
+}
+
+.error::before {
+    content: "!";
+}
+
+/* Estilos para elementos de loading */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(52, 152, 219, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--secondary-color);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Badge */
+.new-badge {
+    background-color: var(--success-color);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
