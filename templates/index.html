@@ -1,74 +1,98 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Produtos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Essentials</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>IT Essentials</h1>
+        </div>
+    </header>
+
     <div class="container">
-        
-        <!-- Cabeçalho -->
-        <header class="header">
-            <div class="logo">
-                <span class="logo-icon">📦</span>
-                <span>Cadastro de Produtos</span>
-            </div>
-            <div class="user-info">
-                Usuário Admin
-            </div>
-        </header>
+        <div class="sidebar">
+            <h2>Funções</h2>
+            <ul>
+                <li><a href="{{ url_for('main.index') }}" class="{% if pagina == 'inicio' %}active{% endif %}">Todas as Ferramentas</a></li>
+                {% for funcao in funcoes %}
+                <li><a href="{{ url_for('main.ferramentas_por_funcao', funcao_id=funcao.id) }}" 
+                       class="{% if funcao_atual and funcao_atual.id == funcao.id %}active{% endif %}">
+                    {{ funcao.nome }}
+                </a></li>
+                {% endfor %}
+            </ul>
 
-        <!-- Conteúdo principal -->
-        <main class="main-content">
-            <h1>Cadastro de Produtos</h1>
+            <h2>Fornecedores</h2>
+            <ul>
+                {% for fornecedor in fornecedores %}
+                <li><a href="{{ url_for('main.ferramentas_por_fornecedor', fornecedor_id=fornecedor.id) }}" 
+                       class="{% if fornecedor_atual and fornecedor_atual.id == fornecedor.id %}active{% endif %}">
+                    {{ fornecedor.nome }}
+                </a></li>
+                {% endfor %}
+            </ul>
+        </div>
 
-            <!-- Formulário -->
-            <div class="form-container">
-                <form action="{{ url_for('add_produto') }}" method="POST">
-                    <div class="form-group">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="valor">Valor:</label>
-                        <input type="text" id="valor" name="valor" required>
-                    </div>
-
-                    <button type="submit">Adicionar</button>
+        <div class="main-content">
+            <div class="search-box">
+                <form action="{{ url_for('main.buscar') }}" method="get">
+                    <input type="text" name="q" placeholder="Buscar ferramentas..." value="{{ termo_busca or '' }}">
+                    <button type="submit">Buscar</button>
                 </form>
             </div>
 
-            <!-- Lista de produtos -->
-            <h2>Produtos cadastrados</h2>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for produto in produtos %}
-                        <tr>
-                            <td>{{ produto[0] }}</td>
-                            <td>{{ produto[1] }}</td>
-                            <td>{{ produto[2] }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="page-header">
+                {% if funcao_atual %}
+                    <h2>Ferramentas para: {{ funcao_atual.nome }}</h2>
+                    <p>{{ funcao_atual.descricao }}</p>
+                {% elif fornecedor_atual %}
+                    <h2>Ferramentas do fornecedor: {{ fornecedor_atual.nome }}</h2>
+                    <p>{{ fornecedor_atual.descricao }}</p>
+                {% elif termo_busca %}
+                    <h2>Resultados para: "{{ termo_busca }}"</h2>
+                    <p>{{ ferramentas|length }} ferramenta(s) encontrada(s)</p>
+                {% else %}
+                    <h2>Todas as Ferramentas</h2>
+                    <p>Catálogo completo de ferramentas para redes de computadores</p>
+                {% endif %}
             </div>
-        </main>
 
-        <!-- Rodapé -->
-        <footer class="footer">
-            &copy; {{ current_year }} Sistema de Cadastro de Produtos
-        </footer>
-
+            <div class="tools-grid">
+                {% for ferramenta in ferramentas %}
+                <div class="tool-card">
+                    <h3>{{ ferramenta.ferramenta_nome }}</h3>
+                    <div class="tool-meta">
+                        <span class="funcao">{{ ferramenta.funcao_nome }}</span>
+                        <span class="fornecedor">{{ ferramenta.fornecedor_nome }}</span>
+                        <span class="tipo {{ ferramenta.tipo.lower() }}">{{ ferramenta.tipo }}</span>
+                    </div>
+                    <div class="tool-details">
+                        {% if ferramenta.comando_sintaxe %}
+                        <p><strong>Comando:</strong> <code>{{ ferramenta.comando_sintaxe }}</code></p>
+                        {% endif %}
+                        {% if ferramenta.protocolo_padrao %}
+                        <p><strong>Protocolo:</strong> {{ ferramenta.protocolo_padrao }}</p>
+                        {% endif %}
+                        <p>{{ ferramenta.contexto_uso }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-results">
+                    <p>Nenhuma ferramenta encontrada.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <div class="container">
+            <p>IT Essentials - Catálogo de Ferramentas de Redes &copy; 2024</p>
+        </div>
+    </footer>
 </body>
 </html>
