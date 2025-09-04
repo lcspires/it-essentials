@@ -89,7 +89,7 @@ def detalhes_ferramenta(ferramenta_id):
 
 @main.route('/api/ferramentas')
 def api_ferramentas():
-    """API endpoint para ferramentas - útil para projetos no GitHub"""
+    """API endpoint para ferramentas"""
     ferramentas = get_ferramentas()
     
     # Converter para formato JSON amigável
@@ -118,13 +118,3 @@ def sitemap():
     response = make_response(sitemap_xml)
     response.headers['Content-Type'] = 'application/xml'
     return response
-
-@main.route('/teste-erro-500')
-def teste_erro_500():
-    """Rota de teste para gerar erro 500 - REMOVER EM PRODUÇÃO"""
-    # Isso causará um erro 500 proposital
-    raise Exception("🚨 Este é um erro de teste para a página 500. "
-                   "Isso é esperado e serve para testar a página de erro interno.")
-
-# Exporta o blueprint para ser importado em server.py
-blueprint = main
