@@ -1,42 +1,55 @@
 repos:
-  # Black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black"]
+
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.13
-        stages: [commit]
 
-  # Ruff - linter rigoroso com auto-fix
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
+  - repo: https://github.com/astral-sh/ruff
     rev: v0.12.12
     hooks:
       - id: ruff
-        args: ["--fix"]
-        stages: [commit]
+        args: ["--fix", "--show-fixes"]
+      - id: ruff-format
 
-  # Mypy - checagem de tipos rigorosa
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.1
+  - repo: local
     hooks:
       - id: mypy
-        args: ["--strict"]
-        stages: [commit]
+        name: mypy
+        entry: mypy src/
+        language: system
+        types: [python]
+        pass_filenames: false
 
-  # isort - organização de imports
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.10.1
+  - repo: local
     hooks:
-      - id: isort
-        args: ["--profile", "black", "--line-length", "88"]
-        stages: [commit]
+      - id: pydocstyle
+        name: pydocstyle
+        entry: pydocstyle src/
+        language: system
+        types: [python]
+        pass_filenames: false
 
-  # Pytest - roda todos os testes
   - repo: local
     hooks:
       - id: pytest
-        name: Run pytest
-        entry: poetry run pytest
+        name: pytest
+        entry: pytest -x
         language: system
-        stages: [commit]
+        types: [python]
         pass_filenames: false

@@ -1,10 +1,9 @@
 [project]
-name = "it-essentials"
+name = "hands-on"
 version = "0.1.0"
-package-mode = false
 description = "Master the basics."
 authors = [
-    {name = "Lucas Pires", email = "lucasopf95@gmail.com"}
+    {name = "Lucas Pires",email = "lucasopf95@gmail.com"}
 ]
 license = {text = "MIT"}
 readme = "README.md"
@@ -17,29 +16,73 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
+isort = "^6.0.1"
 black = "^25.1.0"
-mypy = "^1.17.1"
 ruff = "^0.12.12"
-pytest = "^8.0"
-pre-commit = "^3.3.3"
-isort = "^5.12.0"
+pydocstyle = "^6.3.0"
+mypy = "^1.17.1"
+pytest = "^8.4.2"
+pre-commit = "^4.3.0"
 
-# Configurações globais do Ruff
+[tool.black]
+line-length = 88          	# Máximo 88 caracteres por linha
+target-version = ['py313'] 	# Usa sintaxe do Python 3.13
+include = '\.pyi?$'       	# Aplica a arquivos .py e .pyi
+extend-exclude = '''
+/(
+    \.git                # Ignora pasta .git
+  | \.hg                 # Ignora pasta .hg (Mercurial)
+  | \.mypy_cache         # Ignora cache do mypy
+  | \.pytest_cache       # Ignora cache do pytest
+  | \.ruff_cache         # Ignora cache do ruff
+  | \.venv               # Ignora ambientes virtuais
+  | build                # Ignora pasta build
+  | dist                 # Ignora pasta dist
+)/
+'''
+
 [tool.ruff]
+line-length = 88          # Mesmo comprimento do Black
+target-version = "py313"  # Sintaxe Python 3.13
+select = [                # Quais regras verificar
+    "E", "F", "W",        # Erros básicos, falhas, avisos
+    "I",                  # Ordenação de imports
+    "C",                  # Complexidade de código
+    "B",                  # Riscos de bugs
+    "A",                  # Código assíncrono
+    "N",                  # Convenções de nomes
+    "UP",                 # Recursos modernos do Python
+    "PL",                 # Regras estilo Pylint
+    "RUF",                # Regras específicas do Ruff
+]
+ignore = ["E501"]         		# Ignora erro de linha longa (Black cuida)
+unfixable = ["T201", "T203"] 	# Não tenta corrigir prints (T201=print, T203=pprint)
 
-[tool.ruff.lint]
-select = ["E", "F", "W", "I", "T", "S"]
-fixable = ["E", "F", "W", "I", "T", "S"]
-per-file-ignores = { "tests/*.py" = ["S101"] } # Ignorar S101 em arquivos de teste
-
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
-include_trailing_comma = true
-force_sort_within_sections = true
-known_first_party = ["it-essentials"]
-known_third_party = ["numpy", "pandas"]
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]  		# Ignora imports não usados em __init__.py
 
 [tool.mypy]
-strict = true
+python_version = "3.13"     	# Usa tipos do Python 3.13
+warn_return_any = true      	# Avisa se função retorna "any" (tipo indefinido)
+warn_unused_configs = true  	# Avisa configurações não usadas
+disallow_untyped_defs = true 	# Exige tipos em todas as definições de função
+disallow_incomplete_defs = true # Exige tipos completos (sem "..."")
+check_untyped_defs = true   	# Verifica mesmo funções sem tipos
+disallow_untyped_calls = true 	# Exige tipos em chamadas de função
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]       	# Onde procurar testes
+python_files = ["test_*.py"] 	# Padrão: arquivos que começam com "test_"
+python_classes = ["Test*"]   	# Padrão: classes que começam com "Test"
+python_functions = ["test_*"] 	# Padrão: funções que começam com "test_"
+addopts = ["-v", "--tb=short"] 	# Opções padrão: verbose + traceback curto
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D100", "D104", "D203", "D213"]
+# Usa estilo Google de documentação
+# Ignora certas regras:
+# D100 = Missing docstring in public module
+# D104 = Missing docstring in public package
+# D203 = 1 blank line required before class docstring
+# D213 = Multi-line docstring summary should start at the second line
